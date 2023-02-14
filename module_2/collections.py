@@ -1,5 +1,4 @@
 import random
-import _collections as c
 
 print("=" * 50 + " Module 2 " + "=" * 50 + "\n")
 #Sub-task 1
@@ -67,60 +66,3 @@ if common_keys:
     print(f"Common dictionary:\n{common_dict}")
 else:
     print(f"There are no common keys in list of dicts")
-
-#
-#
-# print(common_dict)
-# # generated_list
-# # i = 0
-# # while i < len(generated_list):
-# #     first_dict = generated_list[i]
-# #     second_dict = generated_list[i+1]
-
-
-
-# c = {'a': 5, 'b': 7, 'g': 11, 'd':0}
-# d = {'a': 3, 'c': 35, 'g': 42, 'e':30}
-#
-# common_dict = {}
-#
-# intersect = (c.keys() & d.keys())
-# for k in intersect:
-#     if c[k] >= d[k]:
-#         key_name = k + '_1'
-#         common_dict[key_name] = c[k]
-#     else:
-#         key_name = k + '_2'
-#         common_dict[key_name] = d[k]
-#     c.pop(k)
-#     d.pop(k)
-# common_dict.update(c)
-# common_dict.update(d)
-# print(common_dict)
-
-
-c = {'a': 5, 'b': 7, 'g': 11, 'd':0}
-d = {'a': 3, 'c': 35, 'g': 42, 'e':30}
-e = {'d': 3, 'f': 35, 'k': 42, 'u':30}
-dicts = [{'a': 5, 'b': 7, 'g': 11, 'd':0},{'d': 3, 'a': 35, 'k': 42, 'u':30},{'a': 3, 'c': 35, 'g': 42, 'e':30}]
-
-seq = [max([x['a'] for x in dicts])]
-# print(seq)
-
-# for elem in dicts:
-#     if [elem['g']] == [max([x['g'] for x in dicts])] :
-#         print(dicts.index(elem))
-
-# for elem in dicts:
-#     for key, v in elem.items():
-#         p.append(key)
-# output = [list(set([i for i in p if p.count(i) >= 2]))]
-# print(output)
-
-
-
-
-
-# for elem in dicts:
-#     if [elem['g']] == [max([x['g'] for x in dicts])] :
-#         print(dicts.index(elem))
