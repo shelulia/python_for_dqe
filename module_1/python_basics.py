@@ -1,54 +1,65 @@
 import random
 
+# Task
+# Create a python script:
+#
+# create list of 100 random numbers from 0 to 1000
+# sort list from min to max (without using sort())
+# calculate average for even and odd numbers
+# print both average result in console
+# Each line of code should be commented with description.
+#
+# Commit script to git repository and provide link as home task result.
+
 print("=" * 50 + " Module 1 " + "=" * 50 + "\n")
-#Sub-task 1
-print("*" * 20 + " Creation of list of 100 random numbers from 0 to 1000 is started " + "*" * 20 + "\n")
-#Create empty list to put random numbers there
+# Sub-task 1
+print("*" * 20 + " Creation of list of 100 random numbers from 0 to 1000"
+                 "is started " + "*" * 20 + "\n")
+# Create empty list to put random numbers there
 random_list = []
-#declare step
+# declare step
 st = 0
-#start loop for puttinh random numbers
+# start loop for putting random numbers
 while st < 100:
-    #append random numbers to the list
+    # append random numbers to the list
     random_list.append(random.randrange(0, 1000))
-    #iterate
+    # iterate
     st += 1
 
 print(f"List of random numbers was created: \n{random_list}")
 
-#Sub-task 2
-print("\n" + "*" * 20 + " Sorting the list of random numbers is started " + "*" * 20 + "\n")
+# Sub-task 2
+print("\n" + "*" * 20 + " Sorting the list of random numbers is "
+      "started " + "*" * 20 + "\n")
+# create empty list to keep there sorted values
+sorted_list = []
+# start loop for sorting values
+while random_list:
+    # pick up min value from list, put to new list
+    sorted_list.append(min(random_list))
+    # remove min element from generated list
+    random_list.remove(min(random_list))
 
-#for all 100 elements
-for i in range(len(random_list)):
-    #for elements from 1 till 100 (excleding 0 element)
-    for j in range(i + 1, len(random_list)):
-        #Compare if 1 elem is greater than next one
-        if random_list[i] > random_list[j]:
-            #Put it into correct place (change place)
-            random_list[i], random_list[j] = random_list[j], random_list[i]
+print(f"Sorted list: \n{sorted_list}")
 
-print(f"Sorted list: \n{random_list}")
+# Sub-tasks 3-4
+print("\n" + "*" * 20 + " Calculation of average for even and odd numbers" ""
+                        "is started " + "*" * 20 + "\n")
 
-#Sub-tasks 3-4
-print("\n" + "*" * 20 + " Calculation of average for even and odd numbers is started " + "*" * 20 + "\n")
+# create lists for keeping even and odd numbers
+try:
+    odd_mb_list = filter(lambda val: val % 2, sorted_list)
+    even_nb_list = filter(lambda val: not val % 2, sorted_list)
+except ZeroDivisionError:
+    pass
 
-#declare empty lists for keeping even and odd numbers
-even_nb_list = []
-odd_mb_list = []
-
-#start checks for each element in list
-for elem in random_list:
-    #validate if element has left part after dividing - then odd, else - even. Append elements to appropriate lists
-    if elem % 2:
-        odd_mb_list.append(elem)
-    else:
-        even_nb_list.append(elem)
-#explicitly calculate average and put into appropriate variables
+# explicitly calculate average and put into appropriate variables
 avg_odd_nb = sum(odd_mb_list)/len(odd_mb_list)
 avg_even_nb = sum(even_nb_list)/len(even_nb_list)
-#display results
-print(f"Average for even numbers: {avg_even_nb}. Sum: {sum(even_nb_list)}, count: {len(even_nb_list)}")
-print(f"Average for odd numbers:  {avg_odd_nb}. Sum: {sum(odd_mb_list)}, count: {len(odd_mb_list)}")
+# display results
+print(f"Average for even numbers: {avg_even_nb}. Sum: {sum(even_nb_list)}, "
+      f"count: {len(even_nb_list)}")
+print(f"Average for odd numbers:  {avg_odd_nb}. Sum: {sum(odd_mb_list)}, "
+      f"count: {len(odd_mb_list)}")
 
 print("\n" + "=" * 50 + " Sub-tasks are finished " + "=" * 50 + "\n")
