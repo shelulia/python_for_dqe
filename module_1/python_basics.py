@@ -16,15 +16,7 @@ print("=" * 50 + " Module 1 " + "=" * 50 + "\n")
 print("*" * 20 + " Creation of list of 100 random numbers from 0 to 1000"
                  "is started " + "*" * 20 + "\n")
 # Create empty list to put random numbers there
-random_list = []
-# declare step
-st = 0
-# start loop for putting random numbers
-while st < 100:
-    # append random numbers to the list
-    random_list.append(random.randrange(0, 1000))
-    # iterate
-    st += 1
+random_list = [random.randrange(0, 1000) for st in range(100)]
 
 print(f"List of random numbers was created: \n{random_list}")
 
@@ -47,19 +39,23 @@ print("\n" + "*" * 20 + " Calculation of average for even and odd numbers" ""
                         "is started " + "*" * 20 + "\n")
 
 # create lists for keeping even and odd numbers
-try:
-    odd_mb_list = filter(lambda val: val % 2, sorted_list)
-    even_nb_list = filter(lambda val: not val % 2, sorted_list)
-except ZeroDivisionError:
-    pass
+odd_mb_list = list(filter(lambda val: val % 2, sorted_list))
+even_nb_list = list(filter(lambda val: not val % 2, sorted_list))
+
 
 # explicitly calculate average and put into appropriate variables
-avg_odd_nb = sum(odd_mb_list)/len(odd_mb_list)
-avg_even_nb = sum(even_nb_list)/len(even_nb_list)
+try:
+    avg_odd_nb = (sum(odd_mb_list)/len(odd_mb_list) if odd_mb_list else [])
+    avg_even_nb = (sum(even_nb_list)/len(even_nb_list) if even_nb_list else [])
+except ZeroDivisionError as e:
+    pass
+
 # display results
-print(f"Average for even numbers: {avg_even_nb}. Sum: {sum(even_nb_list)}, "
-      f"count: {len(even_nb_list)}")
-print(f"Average for odd numbers:  {avg_odd_nb}. Sum: {sum(odd_mb_list)}, "
+print("There are no even numbers in generated list" if not avg_even_nb else
+      f"Average for even numbers: {avg_even_nb}. Sum: {sum(even_nb_list)}, "
+      f"count: {len(even_nb_list)}" )
+print("There are no odd numbers in generated list"  if not avg_odd_nb else
+      f"Average for odd numbers:  {avg_odd_nb}. Sum: {sum(odd_mb_list)}, "
       f"count: {len(odd_mb_list)}")
 
 print("\n" + "=" * 50 + " Sub-tasks are finished " + "=" * 50 + "\n")
