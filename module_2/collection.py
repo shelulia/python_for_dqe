@@ -16,21 +16,25 @@
 # Commit script to git repository and provide link as home task result.
 
 import random
+import string
 
 print("=" * 50 + " Module 2 " + "=" * 50 + "\n")
 # Sub-task 1
-print("*" * 20 + " Generate a list of 3 dicts " + "*" * 20 + "\n")
+# generate from 2 to 10 dictionaries
+random_dict_count = random.randrange(2, 11)
+print("*" * 20 + f" Generate a list of {random_dict_count} dict(s) " + "*" * 20 + "\n")
 
 # declare iterator and empty list
 elem_num_iter = 0
 generated_list = []
+
 # start loop to create a list of 3 dicts
-while elem_num_iter < 3:
+while elem_num_iter < random_dict_count:
     i = 0
     mydict = {}
     # start loop to generate a dict of 5 pairs: key-value
     while i < 5:
-        key = str(chr(random.randint(ord('a'), ord('z'))))
+        key = random.choice(string.ascii_lowercase)
         value = random.randrange(0, 100)
         mydict.update({key: value})
         i += 1
@@ -44,11 +48,11 @@ print("*" * 20 + " Combine dicts from list to 1 dict " + "*" * 20 + "\n")
 
 # define common keys
 # create empty list to keep common keys
-p = []
+list_of_keys = []
 for dict in generated_list:
     for key, v in dict.items():
-        p.append(key)
-common_keys = list(set([i for i in p if p.count(i) >= 2]))
+        list_of_keys.append(key)
+common_keys = list(set([i for i in list_of_keys if list_of_keys.count(i) >= 2]))
 
 # display common keys and collect all dicts to one
 if common_keys:
