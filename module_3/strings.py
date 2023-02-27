@@ -10,21 +10,13 @@
 
 import re
 # put text to variable
-input_str = """homEwork:
-
+input_str = """
+homEwork:
   tHis iz your homeWork, copy these Text to variable.
-
- 
-
   You NEED TO normalize it fROM letter CASEs point oF View. also, create one MORE senTENCE witH LAST WoRDS of each existING SENtence and add it to the END OF this Paragraph.
-
- 
-
   it iZ misspeLLing here. fix“iZ” with correct “is”, but ONLY when it Iz a mistAKE.
-
- 
-
-  last iz TO calculate nuMber OF Whitespace characteRS in this Tex. caREFULL, not only Spaces, but ALL whitespaces. I got 87."""
+  last iz TO calculate nuMber OF Whitespace characteRS in this Tex. caREFULL, not only Spaces, but ALL whitespaces. I got 87.
+"""
 
 # Normalize text and create new sentence
 # declare new variables to contein normalized string and new sentence
@@ -60,5 +52,6 @@ new_string = re.sub(r"( +iz +)", r" is ", new_string)
 print(new_string)
 
 # count number of spaces and non whitespace characters
-count = sum(1 for match in re.finditer(r'[\S]+', new_string))
+# count = sum(1 for match in re.finditer(r'[\S]+', new_string))
+count = len(re.findall('\s', input_str))
 print(f"\nNumber of Spaces : {count}")

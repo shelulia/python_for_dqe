@@ -20,27 +20,14 @@ import string
 
 print("=" * 50 + " Module 2 " + "=" * 50 + "\n")
 # Sub-task 1
-# generate from 2 to 10 dictionaries
-random_dict_count = random.randrange(2, 11)
-print("*" * 20 + f" Generate a list of {random_dict_count} dict(s) " + "*" * 20 + "\n")
-
-# declare iterator and empty list
-elem_num_iter = 0
-generated_list = []
-
-# start loop to create a list of 3 dicts
-while elem_num_iter < random_dict_count:
-    i = 0
-    mydict = {}
-    # start loop to generate a dict of 5 pairs: key-value
-    while i < 5:
-        key = random.choice(string.ascii_lowercase)
-        value = random.randrange(0, 100)
-        mydict.update({key: value})
-        i += 1
-    generated_list.append(mydict)
-    elem_num_iter += 1
+# create a list of n dicts
+generated_list = [
+{random.choice(string.ascii_lowercase): random.randint(0, 100) for _ in range(random.randint(2, 10))}
+for _ in range(random.randint(2, 10))
+]
 # display generated list of dicts
+print("*" * 20 + f" Generate a list of {len(generated_list)}  dict(s) " + "*" * 20 + "\n")
+
 print(f"Generated list of dicts:\n{generated_list}\n")
 
 # Sub-task 2
