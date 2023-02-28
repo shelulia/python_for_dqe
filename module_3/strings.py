@@ -25,10 +25,12 @@ new_sentence = ""
 # divide text to sentences
 for i in re.split(r'[\.]+', input_str.lower()):
     try:
+        i = re.sub("\n+[\s]+", "\n", i)
         # define where first word starts
         first_word_index = re.search(r'([a-z])', i).start()
         # collecting last words from sentences to new sentence
         new_sentence = new_sentence + i.rsplit(' ', 1)[1] + " "
+
         if first_word_index == 0:
             # if sentence starts with word - put it to new_string variable
             # and capitalize
@@ -36,7 +38,7 @@ for i in re.split(r'[\.]+', input_str.lower()):
         else:
             # if sentence starts not word -
             # add it to new_string variable and capitalize first character
-            new_string = new_string + i[0:first_word_index] \
+            new_string = new_string + i[0:first_word_index]\
                          + i[first_word_index:].capitalize() + "."
     except AttributeError:
         # if it is just new line - put it into new string variable
@@ -45,7 +47,7 @@ for i in re.split(r'[\.]+', input_str.lower()):
 
 # capitalize first word in new sentence and add it to the end of paragraph
 new_sentence = new_sentence[:-1].capitalize() + "."
-new_string = new_string + " " + new_sentence
+new_string = new_string + new_sentence
 
 # replace typo IZ with is
 new_string = re.sub(r"( +iz +)", r" is ", new_string)
