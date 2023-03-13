@@ -1,4 +1,4 @@
-from library import ModuleCollections, ModuleString
+from library.library import ModuleCollections, ModuleString
 
 module_2 = ModuleCollections(0,10,1,5)
 
