@@ -5,6 +5,7 @@ class CommonMethods:
     """
     Class contains common methods
     """
+
     def __create_output_file__(self, output_file):
         """
         Method to create output file
@@ -12,7 +13,7 @@ class CommonMethods:
         if not output_file:
             open(output_file, 'a').close()
 
-    def populate_output_file(self, title, section_text, city_exp_date, calculated_val, output_file='./PDQE_newspaper.txt'):
+    def populate_output_file(self, title, section_text, city_exp_date, calculated_val, output_file):
         self.__create_output_file__(output_file)
         with open(output_file, "a") as myfile:
             myfile.write(
@@ -117,8 +118,9 @@ class PdqeNewsPaperSite(CommonMethods):
     Class that gets information from user and puts it into txt file
     """
 
-    def __init__(self, output_file):
+    def __init__(self, output_file = './PDQE_newspaper.txt'):
         self.output_file_name = output_file
+
 
     news = News()
     ads = Ads()
