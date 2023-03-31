@@ -5,6 +5,7 @@ class CommonMethods:
     """
     Class contains common methods
     """
+
     def __create_output_file__(self, output_file):
         """
         Method to create output file
@@ -12,7 +13,7 @@ class CommonMethods:
         if not output_file:
             open(output_file, 'a').close()
 
-    def populate_output_file(self, title, section_text, city_exp_date, calculated_val, output_file='/Users/shaliyu1/Documents/python_for_dqe/module_5/PDQE_newspaper.txt'):
+    def populate_output_file(self, title, section_text, city_exp_date, calculated_val, output_file):
         self.__create_output_file__(output_file)
         with open(output_file, "a") as myfile:
             myfile.write(
@@ -57,6 +58,14 @@ class Ads(CommonMethods):
         print("\nAdvertising will be added to next edition")
         ads = input("""\nPlease enter your ads: """)
         expiration_date = input("""\nPlease enter expiration date in format 'yyyy-mm-dd': """)
+        while True:
+            try:
+                if datetime.strptime(expiration_date, "%Y-%m-%d").date():
+                    break
+            except:
+                expiration_date = input("""\nPlease enter expiration date in format 'yyyy-mm-dd': """)
+                pass
+
         return ads, expiration_date
 
     def get_days_left(self, expiration_date):
@@ -98,7 +107,7 @@ class CheckYourLuck:
         :return: message if guessed or not
         """
         if randomed == int(guessed):
-            msg = "Yehoo! You're lucky today"
+            msg = "Yahoo! You're lucky today"
         else:
             msg = "Ohh, try another time"
         return msg
@@ -109,8 +118,9 @@ class PdqeNewsPaperSite(CommonMethods):
     Class that gets information from user and puts it into txt file
     """
 
-    def __init__(self, output_file):
+    def __init__(self, output_file = './PDQE_newspaper.txt'):
         self.output_file_name = output_file
+
 
     news = News()
     ads = Ads()
@@ -118,16 +128,17 @@ class PdqeNewsPaperSite(CommonMethods):
     common_methods = CommonMethods()
 
     print("*" * 20 + f" Welcome to PDQE Newspaper site " + "*" * 20)
-    print("""\nPlease choose category for your message:
-            1 - News
-            2 - Advertising
-            3 - Check your luck""")
 
     def get_category(self):
         """
         Method to get category for user's input
-        :return: 
+        :return:
         """
+        print("""\nPlease choose category for your message:
+                                1 - News
+                                2 - Advertising
+                                3 - Check your luck
+                                4 - Exit""")
         val = input("\nEnter your value: ")
         return val
 
@@ -135,37 +146,46 @@ class PdqeNewsPaperSite(CommonMethods):
         """
         Method to populate file with user's data
         """
-        val = self.get_category()
-        if int(val) == 1:
-            title = f"\n" + "*" * 20 + f" News " + "*" * 20
-            self.news_text, self.news_city = self.news.get_news()
-            self.common_methods.populate_output_file(title,
-                                                     f"News: {self.news_text}",
-                                                     f"City: {self.news_city}",
-                                                     f"Publish date: {self.common_methods.get_current_date()}",
-                                                     f"{self.output_file_name}")
+        val = 0
+        while int(val) != 4 and True:
+            val = self.get_category()
+            if int(val) == 1:
+                title = f"\n" + "*" * 20 + f" News " + "*" * 20
+                self.news_text, self.news_city = self.news.get_news()
+                self.common_methods.populate_output_file(title,
+                                                         f"News: {self.news_text}",
+                                                         f"City: {self.news_city}",
+                                                         f"Publish date: {self.common_methods.get_current_date()}",
+                                                         f"{self.output_file_name}")
+                pass
 
-        elif int(val) == 2:
-            title = f"\n" + "*" * 20 + f" Private Ads " + "*" * 20
-            self.ads_text, self.expiration_date = self.ads.get_ads()
-            self.common_methods.populate_output_file(title,
-                                                     f"Ads: {self.ads_text}",
-                                                     f"Expiration date: {self.expiration_date}",
-                                                     f"Days left: {self.ads.get_days_left(str(self.expiration_date))}",
-                                                     f"{self.output_file_name}")
-
-        else:
-            title = f"\n" + "*" * 20 + f" Check your luck " + "*" * 20
-            self.user_choise = self.luck.get_user_number()
-            self.randomed = self.luck.get_random_int()
-            self.common_methods.populate_output_file(title,
-                                                     f"Your choice: {self.user_choise}",
-                                                     f"System choice: {self.randomed}",
-                                                     f"Result: {self.luck.success_of_fail(self.user_choise, self.randomed)}",
-                                                     f"{self.output_file_name}")
-
-        print(f"Please find results in {self.output_file_name}")
+            elif int(val) == 2:
+                title = f"\n" + "*" * 20 + f" Private Ads " + "*" * 20
+                self.ads_text, self.expiration_date = self.ads.get_ads()
+                self.common_methods.populate_output_file(title,
+                                                         f"Ads: {self.ads_text}",
+                                                         f"Expiration date: {self.expiration_date}",
+                                                         f"Days left: {self.ads.get_days_left(str(self.expiration_date))}",
+                                                         f"{self.output_file_name}")
+                pass
 
 
+            elif int(val) == 3:
+                title = f"\n" + "*" * 20 + f" Check your luck " + "*" * 20
+                self.user_choise = self.luck.get_user_number()
+                self.randomed = self.luck.get_random_int()
+                self.common_methods.populate_output_file(title,
+                                                         f"Your choice: {self.user_choise}",
+                                                         f"System choice: {self.randomed}",
+                                                         f"Result: {self.luck.success_of_fail(self.user_choise, self.randomed)}",
+                                                         f"{self.output_file_name}")
+                pass
+
+            elif int(val) == 4:
+                print("Thanks for your time. Have a nice day!")
+                break
+            else:
+                print(f"Please select appropriate category 1, 2, 3 or 4")
 
 
+        print(f"\nPlease find results in {self.output_file_name}")

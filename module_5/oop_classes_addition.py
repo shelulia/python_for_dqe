@@ -94,6 +94,14 @@ class Ads(CommonMethods):
         print("\nAdvertising will be added to next edition")
         ads = input("""\nPlease enter your ads: """)
         expiration_date = input("""\nPlease enter expiration date in format 'yyyy-mm-dd': """)
+        while True:
+            try:
+                if datetime.strptime(expiration_date, "%Y-%m-%d").date():
+                    break
+            except:
+                expiration_date = input("""\nPlease enter expiration date in format 'yyyy-mm-dd': """)
+                pass
+
         return ads, expiration_date
 
     def get_days_left(self, expiration_date):
@@ -146,7 +154,7 @@ class PdqeNewsPaperSite(CommonMethods):
     Class that gets information from user and puts it into txt file
     """
 
-    def __init__(self, output_file = "./newspaper.txt", input_file = "/Users/shaliyu1/Documents/python_for_dqe/module_6/test_message.txt"):
+    def __init__(self, output_file = "./newspaper.txt", input_file = "./test_message.txt"):
         self.output_file_name = output_file
         self.input_file_name = input_file
         sys.path.append(input_file)
@@ -158,17 +166,18 @@ class PdqeNewsPaperSite(CommonMethods):
     common_methods = CommonMethods()
 
     print("*" * 20 + f" Welcome to PDQE Newspaper site " + "*" * 20)
-    print("""\nPlease choose category for your message:
-            1 - News
-            2 - Advertising
-            3 - Check your luck
-            4 - Add data from your file""")
 
     def get_category(self):
         """
         Method to get category for user's input
         :return: 
         """
+        print("""\nPlease choose category for your message:
+                    1 - News
+                    2 - Advertising
+                    3 - Check your luck
+                    4 - Add data from your file
+                    5 - Exit""")
         val = input("\nEnter your value: ")
         return val
 
@@ -176,64 +185,71 @@ class PdqeNewsPaperSite(CommonMethods):
         """
         Method to populate file with user's data
         """
-        val = self.get_category()
-        if int(val) == 1:
-            title = f"\n" + "*" * 20 + f" News " + "*" * 20
-            self.news_text, self.news_city = self.news.get_news()
-            self.common_methods.populate_output_file(title,
-                                                     f"News: {self.news_text}",
-                                                     f"City: {self.news_city}",
-                                                     f"Publish date: {self.common_methods.get_current_date()}",
-                                                     f"{self.output_file_name}")
+        val = 0
+        while int(val) != 4 and True:
+            val = self.get_category()
+            if int(val) == 1:
+                title = f"\n" + "*" * 20 + f" News " + "*" * 20
+                self.news_text, self.news_city = self.news.get_news()
+                self.common_methods.populate_output_file(title,
+                                                         f"News: {self.news_text}",
+                                                         f"City: {self.news_city}",
+                                                         f"Publish date: {self.common_methods.get_current_date()}",
+                                                         f"{self.output_file_name}")
 
-        elif int(val) == 2:
-            title = f"\n" + "*" * 20 + f" Private Ads " + "*" * 20
-            self.ads_text, self.expiration_date = self.ads.get_ads()
-            self.common_methods.populate_output_file(title,
-                                                     f"Ads: {self.ads_text}",
-                                                     f"Expiration date: {self.expiration_date}",
-                                                     f"Days left: {self.ads.get_days_left(str(self.expiration_date))}",
-                                                     f"{self.output_file_name}")
+            elif int(val) == 2:
+                title = f"\n" + "*" * 20 + f" Private Ads " + "*" * 20
+                self.ads_text, self.expiration_date = self.ads.get_ads()
+                self.common_methods.populate_output_file(title,
+                                                         f"Ads: {self.ads_text}",
+                                                         f"Expiration date: {self.expiration_date}",
+                                                         f"Days left: {self.ads.get_days_left(str(self.expiration_date))}",
+                                                         f"{self.output_file_name}")
 
 
-        elif int(val) == 3:
-            title = f"\n" + "*" * 20 + f" Check your luck " + "*" * 20
-            self.user_choise = self.luck.get_user_number()
-            self.randomed = self.luck.get_random_int()
-            self.common_methods.populate_output_file(title,
-                                                     f"Your choice: {self.user_choise}",
-                                                     f"System choice: {self.randomed}",
-                                                     f"Result: {self.luck.success_of_fail(self.user_choise, self.randomed)}",
-                                                     f"{self.output_file_name}")
+            elif int(val) == 3:
+                title = f"\n" + "*" * 20 + f" Check your luck " + "*" * 20
+                self.user_choise = self.luck.get_user_number()
+                self.randomed = self.luck.get_random_int()
+                self.common_methods.populate_output_file(title,
+                                                         f"Your choice: {self.user_choise}",
+                                                         f"System choice: {self.randomed}",
+                                                         f"Result: {self.luck.success_of_fail(self.user_choise, self.randomed)}",
+                                                         f"{self.output_file_name}")
 
-        else:
-            try:
-                txt = self.read_input_file(self.input_file_name)
-                for lst in txt:
-                    section = self.validate_if_date(lst)
-                    if section == 1:
-                        title = f"\n" + "*" * 20 + f" Private Ads " + "*" * 20
-                        self.ads_text = self.base_methods.text_normalization(" ".join(lst[:-1]))
-                        self.expiration_date = lst[-1]
-                        self.common_methods.populate_output_file(title,
-                                                                 f"Ads: {self.ads_text}",
-                                                                 f"Expiration date: {self.expiration_date}",
-                                                                 f"Days left: {self.ads.get_days_left(str(self.expiration_date))}",
-                                                                 f"{self.output_file_name}")
-                    else:
-                        title = f"\n" + "*" * 20 + f" News " + "*" * 20
-                        self.news_text = self.base_methods.text_normalization(" ".join(lst[:-1]).strip())
-                        self.news_city = " ".join(lst[-1:]).strip()
-                        self.common_methods.populate_output_file(title,
-                                                                 f"News: {self.news_text}",
-                                                                 f"City: {self.news_city}",
-                                                                 f"Publish date: {self.common_methods.get_current_date()}",
-                                                                 f"{self.output_file_name}")
-                os.remove(self.input_file_name)
-            except Exception as e:
-                print(e)
-                print(f"FAILURE: file {self.input_file_name} wasn't processed. \nPlease try again.")
 
+            elif int(val) == 4:
+                try:
+                    txt = self.read_input_file(self.input_file_name)
+                    for lst in txt:
+                        section = self.validate_if_date(lst)
+                        if section == 1:
+                            title = f"\n" + "*" * 20 + f" Private Ads " + "*" * 20
+                            self.ads_text = self.base_methods.text_normalization(" ".join(lst[:-1]))
+                            self.expiration_date = lst[-1]
+                            self.common_methods.populate_output_file(title,
+                                                                     f"Ads: {self.ads_text}",
+                                                                     f"Expiration date: {self.expiration_date}",
+                                                                     f"Days left: {self.ads.get_days_left(str(self.expiration_date))}",
+                                                                     f"{self.output_file_name}")
+                        else:
+                            title = f"\n" + "*" * 20 + f" News " + "*" * 20
+                            self.news_text = self.base_methods.text_normalization(" ".join(lst[:-1]).strip())
+                            self.news_city = " ".join(lst[-1:]).strip()
+                            self.common_methods.populate_output_file(title,
+                                                                     f"News: {self.news_text}",
+                                                                     f"City: {self.news_city}",
+                                                                     f"Publish date: {self.common_methods.get_current_date()}",
+                                                                     f"{self.output_file_name}")
+                    os.remove(self.input_file_name)
+                except Exception as e:
+                    print(e)
+                    print(f"FAILURE: file {self.input_file_name} wasn't processed. \nPlease try again.")
+            elif int(val) == 5:
+                print("Thanks for your time. Have a nice day!")
+                break
+            else:
+                print(f"Please select appropriate category 1, 2, 3 or 4")
 
         print(f"Please find results in {self.output_file_name}")
 
