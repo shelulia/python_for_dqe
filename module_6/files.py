@@ -8,6 +8,10 @@ from module_5.oop_classes_addition import PdqeNewsPaperSite
 # if you need to put Ads - please add date in last line in format YYYY-mm-dd
 # if you need to put News - please add city
 
+# if you need to put data from your own file, please populate object class
+# PdqeNewsPaperSite with parameters(input_file, output_file)
+# It has default values in case none parameters are passed
+
 module_5 = PdqeNewsPaperSite()
 
 inpt_file = module_5.user_input()

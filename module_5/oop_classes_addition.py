@@ -154,7 +154,7 @@ class PdqeNewsPaperSite(CommonMethods):
     Class that gets information from user and puts it into txt file
     """
 
-    def __init__(self, output_file = "./newspaper.txt", input_file = "./test_message.txt"):
+    def __init__(self, input_file = "./test_message.txt", output_file = "./newspaper.txt"):
         self.output_file_name = output_file
         self.input_file_name = input_file
         sys.path.append(input_file)
