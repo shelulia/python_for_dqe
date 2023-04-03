@@ -9,5 +9,5 @@ test city
 
 test ads
 with many
-records
+records 4 123
 imagine city

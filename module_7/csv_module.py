@@ -11,7 +11,7 @@ class CsvTransformation():
         Class contains methods to work with csv files
     """
 
-    def remove_delimiters (self, input_string, delimiters = r"[\,\.\!\?\/\&\-\:\;\@\=\*]+"):
+    def remove_delimiters (self, input_string, delimiters = r"[\,\.\!\?\/\&\-\:\;\@\=\*\d\s]+"):
         """
         Method that removes any delimiters in string
         :param delimiters: list of delimiters
@@ -31,8 +31,8 @@ class CsvTransformation():
 
         for word in words:
             word = self.remove_delimiters(word).title()
-            #check if word is word, not digit or star - then count
-            if re.findall(r'[\*\d+]', word) == []:
+            #check if word exists after removing extra digits - then count
+            if word:
                 if word in counts:
                     counts[word] += 1
                 else:
@@ -56,7 +56,7 @@ class CsvTransformation():
         """
         res = {i.lower(): [input_str.lower().count(i.lower())
             , (input_str.count(i) if i.isupper() else 0)
-            , input_str.lower().count(i.lower()) / len(self.remove_spaces(input_str)) * 100]
+            , str(round((input_str.lower().count(i.lower()) / len(self.remove_spaces(input_str)) * 100), 2))+" %"]
                for i in set(self.remove_spaces(input_str))}
         return res
 
@@ -65,13 +65,15 @@ class CsvTransformation():
             contents = f.read()
             if mode == "word_analysis":
                 contents_str = self.word_count(contents)
+                self.delim = "-"
             elif mode == "letter_analysis":
-                contents_str = self.analyze_count_letters(self.remove_delimiters(contents))
+                contents_str = self.analyze_count_letters(self.remove_spaces(self.remove_delimiters(contents)))
+                self.delim = ","
             else:
                 print("Please specify word_analysis or letter_analysis mode")
             with open(output_file, "w") as csvfile:
                 fieldnames = headers
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter = self.delim)
                 writer.writeheader()
                 for k, v in contents_str.items():
                     writer.writerow(dict(zip(headers, [k] + [v] if type(v)!= list else [k] + v)))
