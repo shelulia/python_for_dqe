@@ -1,0 +1,14 @@
+<root>
+    <section name="news">
+        <text>some interesting news here</text>
+        <city>Fantastic City</city>
+    </section>
+    <section name="ads">
+        <text>buy 3 pay 2</text>
+        <expiration_date>2023-05-10</expiration_date>
+    </section>
+    <section name="ad">
+        <text>buy 3 pay 2</text>
+        <expiration_date>2023-05-10</expiration_date>
+    </section>
+</root>
